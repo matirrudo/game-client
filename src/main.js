@@ -7,8 +7,6 @@ class MainScene extends Phaser.Scene{
         this.box = null;
         this.groundBottom=null;
         this.groundTop=null;
-        this.groundBottomW=null;
-        this.groundTopW=null;
         this.jumpCount=0;
         this.isGravityInverted = false;
         this.spikes = null;
