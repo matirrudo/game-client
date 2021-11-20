@@ -7,6 +7,8 @@ class MainScene extends Phaser.Scene{
         this.box = null;
         this.groundBottom=null;
         this.groundTop=null;
+        this.groundBottomW=null;
+        this.groundTopW=null;
         this.jumpCount=0;
         this.isGravityInverted = false;
         this.spikes = null;
@@ -16,6 +18,7 @@ class MainScene extends Phaser.Scene{
         this.gPortals = null;
         this.portalFlap = null;
         this.explodeSound = null;
+        this.portalSound = null;
         this.musicSound = null;
         this.isFlapMode = false;
         this.rotateAnim = null;
@@ -23,20 +26,23 @@ class MainScene extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('box','../assets/box.png');
-        this.load.image('box2','../assets/box2.png');
-        this.load.image('rocket','../assets/rocket.png');
-        this.load.image('groundBottom','../assets/groundBottom.png');
-        this.load.image('groundTop','../assets/groundTop.png');
-        this.load.image('spikeTop','../assets/spikeTop.png');
-        this.load.image('spikeBottom','../assets/spikeBottom.png');
-        this.load.image('spikeSide','../assets/spikeSide.png');
-        this.load.image('portalFlap', '../assets/portalFlap.png');
-        this.load.image('portalGravity', '../assets/portalGravity.png');
-        this.load.image('portal', '../assets/portal.png');
-        this.load.image('brick', '../assets/brick.png');
-        this.load.audio('explode', '../assets/sounds/hit.ogg');
-        this.load.audio('music', '../assets/sounds/45 seg - Doja Cat.mp3');
+        this.load.image('box','./assets/box.png');
+        this.load.image('box2','./assets/box2.png');
+        this.load.image('rocket','./assets/rocket.png');
+        this.load.image('groundBottom','./assets/groundBottom-white.png');
+        this.load.image('groundTop','./assets/groundTop-white.png');
+        this.load.image('groundBottomB','./assets/groundBottom-black.png');
+        this.load.image('groundTopB','./assets/groundTop-black.png');
+        this.load.image('spikeTop','./assets/spikeTop.png');
+        this.load.image('spikeBottom','./assets/spikeBottom.png');
+        this.load.image('spikeSide','./assets/spikeSide.png');
+        this.load.image('portalFlap', './assets/portalFlap.png');
+        this.load.image('portalGravity', './assets/portalGravity.png');
+        this.load.image('portal', './assets/portal.png');
+        this.load.image('brick', './assets/brick.png');
+        this.load.audio('explode', './assets/sounds/hit.ogg');
+        this.load.audio('music', './assets/sounds/music-level3.mp3');
+        this.load.audio('portalSound', './assets/sounds/portal.wav')
     }
 
     create(){
@@ -46,9 +52,9 @@ class MainScene extends Phaser.Scene{
         this.createSpikes();
         this.createBricks();
         this.createPortals();
-        this.createPortalPhysics();
         this.input.on('pointerdown', this.onAction , this);
         this.explodeSound = this.sound.add('explode');
+        this.portalSound = this.sound.add('portalSound');
         this.musicSound = this.sound.add('music');
         this.musicSound.play();
 
@@ -131,6 +137,7 @@ class MainScene extends Phaser.Scene{
             duration:100,
             ease:'Linear'
         })
+        this.portalSound.play();
     }
 
     onChangeToGravityInverted(){
@@ -139,6 +146,9 @@ class MainScene extends Phaser.Scene{
         this.box.setTexture('box2');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = -3500;
+        this.groundBottom.setTexture('groundBottomB');
+        this.groundTop.setTexture('groundTopB');
+        this.portalSound.play();
     }
 
     onChangeToNormalGravity(){
@@ -147,6 +157,9 @@ class MainScene extends Phaser.Scene{
         this.box.setTexture('box');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 3500;
+        this.groundBottom.setTexture('groundBottom');
+        this.groundTop.setTexture('groundTop');
+        this.portalSound.play();
     }
 
     onTouchBrick(){
@@ -161,7 +174,6 @@ class MainScene extends Phaser.Scene{
         this.spikes = this.physics.add.group();
         api.fetchObstacles(1, 'BOTTOM')
         .then( response => {
-            console.log(response);
             for(let spike of response){
                 let positionX = 0;
                 for(let i = 0; i < spike.quantity; i++){
@@ -172,45 +184,61 @@ class MainScene extends Phaser.Scene{
             this.spikes.setVelocityX(-700);
             this.physics.add.collider(this.box, this.spikes, this.gameOver, null, this);
         }).catch(err => {
-            console.log("error ");
+            console.log("error");
         });
     }
 
     createBricks(){
         this.briks = this.physics.add.group();
-        for(let brick of brickList){
-            let positionX = 0;
-            for(let i = 0; i < brick.quantity;i++){
-                let brickAux = this.briks.create((brick.seconds*700)+ positionX, brick.y, 'brick').setOrigin(0,1).setImmovable(true);;
-                positionX += brickAux.width;
+        api.fetchBricks(1).then(response => {
+            for(let brick of response){
+                let positionX = 0;
+                for(let i = 0; i < brick.quantity;i++){
+                    let brickAux = this.briks.create((brick.seconds*700)+ positionX, brick.y_value, 'brick').setOrigin(0,1).setImmovable(true);;
+                    positionX += brickAux.width;
+                }
             }
-        }
-        this.briks.setVelocityX(-700);
-        this.physics.add.collider(this.box, this.briks, this.onTouchBrick, null, this);
+            this.briks.setVelocityX(-700);
+            this.physics.add.collider(this.box, this.briks, this.onTouchBrick, null, this);
+        });
     }
 
     createPortals(){
-        this.nPortals = this.physics.add.group();
-        this.fPortals = this.physics.add.group();
-        this.gPortals = this.physics.add.group();
-        for(let portal of normalPortals){
-            this.nPortals.create(portal.seconds * 700,portal.y,'portal').setOrigin(0,1);
-        }
-        this.nPortals.setVelocityX(-700);
-        for(let portal of flapPortals){
-            this.fPortals.create(portal.seconds * 700,portal.y,'portalFlap').setOrigin(0,1);
-        }
-        this.fPortals.setVelocityX(-700);
-        for(let portal of gravityPortals){
-            this.gPortals.create(portal.seconds * 700,portal.y,'portalGravity').setOrigin(0,1);
-        }
-        this.gPortals.setVelocityX(-700);
+        this.createNormalPortals();
+        this.createGravityPortals();
+        this.createFlapPortals();
     }
+
+    createNormalPortals(){
+        this.nPortals = this.physics.add.group();
+        api.fetchPortals(1,"normal").then(response =>{
+            for(let portal of response){
+                this.nPortals.create(portal.seconds * 700, 465, 'portal').setOrigin(0,1);
+            }
+            this.nPortals.setVelocityX(-700);
+            this.physics.add.overlap(this.box, this.nPortals, this.onChangeToNormalGravity, null, this);
+        });
+    }
+    createGravityPortals(){
+        this.gPortals = this.physics.add.group();
+        api.fetchPortals(1,"gravity").then(response =>{
+            for(let portal of response){
+                this.gPortals.create(portal.seconds * 700, 465, 'portalGravity').setOrigin(0,1);
+            }
+            this.gPortals.setVelocityX(-700);
+            this.physics.add.overlap(this.box, this.gPortals, this.onChangeToGravityInverted, null, this);
     
-    createPortalPhysics(){
-        this.physics.add.overlap(this.box, this.fPortals, this.onChangeToFlap, null, this);
-        this.physics.add.overlap(this.box, this.gPortals, this.onChangeToGravityInverted, null, this);
-        this.physics.add.overlap(this.box, this.nPortals, this.onChangeToNormalGravity, null, this);
+        });
+    }
+    createFlapPortals(){
+        this.fPortals = this.physics.add.group();
+        api.fetchPortals(1,"flap").then(response =>{
+            for(let portal of response){
+                this.fPortals.create(portal.seconds * 700, 465, 'portalFlap').setOrigin(0,1);
+            }
+            this.fPortals.setVelocityX(-700);
+            this.physics.add.overlap(this.box, this.fPortals, this.onChangeToFlap, null, this);
+        });
     }
 
     createLimits(){
