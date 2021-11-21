@@ -49,6 +49,7 @@ export class Game extends Phaser.Scene{
     }
 
     create(){
+        this.game.sound.stopAll();
         this.phaseConstructor.create()
         this.input.on('pointerdown', this.onAction , this);
         this.explodeSound = this.sound.add('explode');
