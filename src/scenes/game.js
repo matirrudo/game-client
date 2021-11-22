@@ -56,6 +56,8 @@ export class Game extends Phaser.Scene{
         this.load.audio('music2', '../../assets/sounds/music-level2.mp3');
         this.load.audio('music3', '../../assets/sounds/music-level3.mp3');
         this.load.audio('portalSound', '../../assets/sounds/portal.wav');
+
+        this.load.spritesheet('boxFrames', '../../assets/boxFrames.png', {frameWidth:30, frameHeight:30})
     }
 
     create(){
@@ -147,6 +149,7 @@ export class Game extends Phaser.Scene{
     onChangeToFlap(){
         this.isFlapMode = true;
         this.isGravityInverted = false;
+        this.box.anims.pause('boxCircle');
         this.box.setTexture('rocket');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 2000;

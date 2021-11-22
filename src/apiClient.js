@@ -1,5 +1,5 @@
 const api= ( () =>{
-    const baseUrl = 'http://localhost:3000';
+    const baseUrl = 'http://168.197.48.12:3000';
 
     const fetchObstacles = (levelId, location) => {
         const url = `${baseUrl}/obstacles/${levelId}?location=${location}`;

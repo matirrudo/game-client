@@ -14,7 +14,16 @@ export class LevelConstructor {
     }
 
     createBox(){
-        this.relatedScene.box = this.relatedScene.physics.add.sprite(1000 * (3/8), 300, 'box');
+        this.relatedScene.box = this.relatedScene.physics.add.sprite(1000 * (3/8), 300, 'boxFrames');
+        this.relatedScene.anims.create({
+            key:'boxCircle',
+            frames:this.relatedScene.anims.generateFrameNumbers('boxFrames',{
+                start: 1,
+                end:5,
+            }),
+            repeat:-1,
+        })
+        this.relatedScene.box.anims.play('boxCircle');
         this.relatedScene.box.body.gravity.y = 3500;
         this.relatedScene.physics.add.collider(this.relatedScene.box, this.relatedScene.groundBottom, this.relatedScene.resetJumpCount, null, this.relatedScene);
         this.relatedScene.physics.add.collider(this.relatedScene.box, this.relatedScene.groundTop, this.relatedScene.resetJumpCount, null, this.relatedScene);
