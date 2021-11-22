@@ -164,7 +164,7 @@ export class Game extends Phaser.Scene{
         this.box.body.gravity.y = -3500;
         this.groundBottom.setTexture('groundBottomB');
         this.groundTop.setTexture('groundTopB');
-        this.briks.setTexture('brickB');
+        //this.briks.setTexture('brickW');
         this.portalSound.play();
     }
 
@@ -176,7 +176,7 @@ export class Game extends Phaser.Scene{
         this.box.body.gravity.y = 3500;
         this.groundBottom.setTexture('groundBottom');
         this.groundTop.setTexture('groundTop');
-        this.briks.setTexture('brickW');
+        //this.briks.setTexture('brickW');
         this.portalSound.play();
     }
 

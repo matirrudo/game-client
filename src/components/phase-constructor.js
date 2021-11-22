@@ -26,5 +26,9 @@ export class PhaseConstructor {
           return this.create();
         }
     }
+
+    isPhaseFinished() {
+        return this.currentPhase.isPhaseFinished();
+      }
     
 }
