@@ -24,6 +24,8 @@ export class Game extends Phaser.Scene{
         this.isFlapMode = false;
         this.rotateAnim = null;
         this.rotateAnimGI = null;
+
+        this.finalPortals = null;
     }
 
     preload(){
@@ -34,18 +36,25 @@ export class Game extends Phaser.Scene{
         this.load.image('groundTop','../../assets/groundTop-white.png');
         this.load.image('groundBottomB','../../assets/groundBottom-black.png');
         this.load.image('groundTopB','../../assets/groundTop-black.png');
+        this.load.image('groundFlap','../../assets/groundFlap.png');
         this.load.image('spikeTop','../../assets/spikeTop.png');
         this.load.image('spikeBottom','../../assets/spikeBottom.png');
         this.load.image('spikeSide','../../assets/spikeSide.png');
+        this.load.image('portalFinal', '../../assets/portalFinal.png');
         this.load.image('portalFlap', '../../assets/portalFlap.png');
         this.load.image('portalGravity', '../../assets/portalGravity.png');
-        this.load.image('portal', '../../assets/portal.png');
+        this.load.image('portalNormal', '../../assets/portalNormal.png');
         this.load.image('brick', '../../assets/brick.png');
+        this.load.image('brickW', '../../assets/brickW.png');
+        this.load.image('brickB', '../../assets/brickB.png');
+        this.load.image('backgroundW', '../../assets/backGroundW.png');
+        this.load.image('backgroundB', '../../assets/backGroundB.png');
+
         this.load.audio('explode', '../../assets/sounds/hit.ogg');
         this.load.audio('music1', '../../assets/sounds/music-level1.mp3');
         this.load.audio('music2', '../../assets/sounds/music-level2.mp3');
         this.load.audio('music3', '../../assets/sounds/music-level3.mp3');
-        this.load.audio('portalSound', '../../assets/sounds/portal.wav')
+        this.load.audio('portalSound', '../../assets/sounds/portal.wav');
     }
 
     create(){
@@ -108,6 +117,19 @@ export class Game extends Phaser.Scene{
         this.box.visible = false;
         this.explodeSound.play();
         this.musicSound.pause();
+        this.restart();
+    }
+    restart(){
+        this.time.addEvent({
+            delay:1000,
+            callback:()=>{
+                this.scene.restart();
+            },
+            lopp:false
+        });
+    }
+
+    restart2(){
         this.time.addEvent({
             delay:1000,
             callback:()=>{
@@ -124,11 +146,13 @@ export class Game extends Phaser.Scene{
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 2000;
         this.tweens.add({
-            targets:this.box,
-            angle:0,
-            duration:100,
-            ease:'Linear'
-        })
+            targets: this.box,
+            angle: 0,
+            duration: 0,
+            ease: "Linear"
+        });
+        this.groundBottom.setTexture('groundFlap');
+        this.groundTop.setTexture('groundFlap');
         this.portalSound.play();
     }
 
@@ -140,6 +164,7 @@ export class Game extends Phaser.Scene{
         this.box.body.gravity.y = -3500;
         this.groundBottom.setTexture('groundBottomB');
         this.groundTop.setTexture('groundTopB');
+        this.briks.setTexture('brickB');
         this.portalSound.play();
     }
 
@@ -151,7 +176,24 @@ export class Game extends Phaser.Scene{
         this.box.body.gravity.y = 3500;
         this.groundBottom.setTexture('groundBottom');
         this.groundTop.setTexture('groundTop');
+        this.briks.setTexture('brickW');
         this.portalSound.play();
+    }
+
+    changeLevel(Scene){
+        this.phaseConstructor.nextLevel();
+        
+        this.physics.pause();
+        this.box.visible = false;
+        this.explodeSound.play();
+        this.musicSound.pause();
+        this.time.addEvent({
+            delay:1000,
+            callback:()=>{
+                this.scene.restart();
+            },
+            lopp:false
+        });
     }
 
     onTouchBrick(){

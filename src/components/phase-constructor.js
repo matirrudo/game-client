@@ -17,4 +17,14 @@ export class PhaseConstructor {
         this.currentPhase = new CurrentPhaseClass(this.relatedScene);
         return this.currentPhase.create();
     }
+
+    nextLevel() {
+        console.log(this.phases.length);
+        if(this.phases.length == 0) {
+          this.relatedScene.endGame(true);
+        } else {
+          return this.create();
+        }
+    }
+    
 }

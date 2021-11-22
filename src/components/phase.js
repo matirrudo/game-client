@@ -1,8 +1,13 @@
 export class Phase{
     constructor(scene){
         this.relatedScene = scene;
+        //this.createBackground();
         this.createLimits();
         this.createBox();
+    }
+
+    createBackground(){
+        this.relatedScene.add.image(0, 135, 'backgroundB').setOrigin(0,0).setScale(1.1,1.1);
     }
 
     createLimits(){
@@ -25,7 +30,7 @@ export class Phase{
             for(let brick of response){
                 let positionX = 0;
                 for(let i = 0; i < brick.quantity;i++){
-                    let brickAux = this.relatedScene.briks.create((brick.seconds*700)+ positionX, brick.y_value, 'brick').setOrigin(0,1).setImmovable(true);;
+                    let brickAux = this.relatedScene.briks.create((brick.seconds*700)+ positionX, brick.y_value, 'brickW').setOrigin(0,1).setImmovable(true);;
                     positionX += brickAux.width;
                 }
             }
@@ -43,6 +48,7 @@ export class Phase{
         this.createNormalPortals(levelId);
         this.createGravityPortals(levelId);
         this.createFlapPortals(levelId);
+        //this.createFinalPortals(levelId)
     }
     createSpikes(levelId){
         this.createBottomSpikes(levelId);
@@ -106,7 +112,7 @@ export class Phase{
         this.relatedScene.nPortals = this.relatedScene.physics.add.group();
         api.fetchPortals(levelId,"normal").then(response =>{
             for(let portal of response){
-                this.relatedScene.nPortals.create(portal.seconds * 700, 465, 'portal').setOrigin(0,1);
+                this.relatedScene.nPortals.create(portal.seconds * 700, 465, 'portalNormal').setOrigin(0,1);
             }
             this.relatedScene.nPortals.setVelocityX(-700);
             this.relatedScene.physics.add.overlap(this.relatedScene.box, this.relatedScene.nPortals, this.relatedScene.onChangeToNormalGravity, null, this.relatedScene);
@@ -132,6 +138,21 @@ export class Phase{
             this.relatedScene.fPortals.setVelocityX(-700);
             this.relatedScene.physics.add.overlap(this.relatedScene.box, this.relatedScene.fPortals, this.relatedScene.onChangeToFlap, null, this.relatedScene);
         });
+    }
+
+    createFinalPortals(levelId){
+        this.relatedScene.finalPortals = this.relatedScene.physics.add.group();
+        api.fetchPortals(levelId,"final").then(response =>{
+            for(let portal of response){
+                this.relatedScene.finalPortals.create(portal.seconds * 700, 465, 'portalFinal').setOrigin(0,1);
+            }
+            this.relatedScene.finalPortals.setVelocityX(-700);
+            this.relatedScene.physics.add.collider(this.relatedScene.box, this.relatedScene.finalPortals, this.relatedScene.endLevel, null, this.relatedScene);
+        });
+    }
+
+    endGame(parameter){
+
     }
 
 }
