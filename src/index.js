@@ -1,4 +1,7 @@
+import { Congratulations } from "./scenes/congratulations.js";
 import { Game } from "./scenes/game.js";
+import { Game2 } from "./scenes/game2.js"
+import { Game3 } from "./scenes/game3.js";
 const config = {
     type: Phaser.AUTO,
     width: 1000,
@@ -14,7 +17,7 @@ const config = {
             debug:false
         }
     },
-    scene: Game
+    scene: [Game,Game2,Game3,Congratulations]
 };
 
 var game = new Phaser.Game(config);

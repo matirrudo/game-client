@@ -1,13 +1,14 @@
-import { PhaseConstructor } from '../components/phase-constructor.js';
+import { LevelConstructor } from '../components/level-constructor.js';
+import { Game2 } from './game2.js';
 
 export class Game extends Phaser.Scene{
     constructor(){
-        super({key:'game'});
+        super({key:'Game'});
     }
 
     init(){
         this.box = null;
-        this.phaseConstructor = new PhaseConstructor(this);
+        this.levelConstructor = new LevelConstructor(this,1);
         this.groundBottom=null;
         this.groundTop=null;
         this.jumpCount=0;
@@ -59,7 +60,7 @@ export class Game extends Phaser.Scene{
 
     create(){
         this.game.sound.stopAll();
-        this.phaseConstructor.create()
+        this.levelConstructor.create();
         this.input.on('pointerdown', this.onAction , this);
         this.explodeSound = this.sound.add('explode');
         this.portalSound = this.sound.add('portalSound');
@@ -111,6 +112,20 @@ export class Game extends Phaser.Scene{
     resetJumpCount(){
         this.jumpCount = 0;
     }
+    
+    changeLevel(){
+        this.physics.pause();
+        this.box.visible = false;
+        this.explodeSound.play();
+        this.musicSound.pause();
+        this.time.addEvent({
+            delay:1000,
+            callback:()=>{
+                this.scene.start('Game2', new Game2);
+            },
+            lopp:false
+        });
+    }
 
     gameOver(){
         this.physics.pause();
@@ -120,16 +135,6 @@ export class Game extends Phaser.Scene{
         this.restart();
     }
     restart(){
-        this.time.addEvent({
-            delay:1000,
-            callback:()=>{
-                this.scene.restart();
-            },
-            lopp:false
-        });
-    }
-
-    restart2(){
         this.time.addEvent({
             delay:1000,
             callback:()=>{
@@ -178,22 +183,6 @@ export class Game extends Phaser.Scene{
         this.groundTop.setTexture('groundTop');
         //this.briks.setTexture('brickW');
         this.portalSound.play();
-    }
-
-    changeLevel(Scene){
-        this.phaseConstructor.nextLevel();
-        
-        this.physics.pause();
-        this.box.visible = false;
-        this.explodeSound.play();
-        this.musicSound.pause();
-        this.time.addEvent({
-            delay:1000,
-            callback:()=>{
-                this.scene.restart();
-            },
-            lopp:false
-        });
     }
 
     onTouchBrick(){
