@@ -1,4 +1,6 @@
 import { LevelConstructor } from '../components/level-constructor.js';
+import { VolveAJugarButton } from '../components/volver-a-jugar-button.js';
+import { VolverAMenu } from '../components/volver-a-menu-button.js';
 import { Game3 } from './game3.js';
 
 export class Game2 extends Phaser.Scene{
@@ -9,6 +11,9 @@ export class Game2 extends Phaser.Scene{
     init(){
         this.box = null;
         this.levelConstructor = new LevelConstructor(this,2);
+        this.volverAJugarButton = new VolveAJugarButton(this);
+        this.volverAMenuButton = new VolverAMenu(this);
+        this.isPaused = false;
         this.groundBottom=null;
         this.groundTop=null;
         this.jumpCount=0;
@@ -25,11 +30,12 @@ export class Game2 extends Phaser.Scene{
         this.isFlapMode = false;
         this.rotateAnim = null;
         this.rotateAnimGI = null;
-
         this.finalPortals = null;
     }
 
     preload(){
+        this.volverAJugarButton.preload();
+        this.volverAMenuButton.preload();
         this.load.image('box','../../assets/box.png');
         this.load.image('box2','../../assets/box2.png');
         this.load.image('boxFlap','../../assets/boxFlap.png');
@@ -56,6 +62,11 @@ export class Game2 extends Phaser.Scene{
         this.load.audio('music2', '../../assets/sounds/music-level2.mp3');
         this.load.audio('music3', '../../assets/sounds/music-level3.mp3');
         this.load.audio('portalSound', '../../assets/sounds/portal.wav');
+
+        this.load.spritesheet('boxWhiteFrames', '../../assets/boxWhiteFrames.png', {frameWidth:30, frameHeight:30});
+        this.load.spritesheet('boxBlackFrames', '../../assets/boxBlackFrames.png', {frameWidth:30, frameHeight:30});
+        this.load.spritesheet('boxFlapFrames', '../../assets/boxFlapFrames.png', {frameWidth:50, frameHeight:35});
+        this.load.spritesheet('boxFlapFrames2', '../../assets/boxFlapFrames2.png', {frameWidth:50, frameHeight:35});
     }
 
     create(){
@@ -71,7 +82,9 @@ export class Game2 extends Phaser.Scene{
         if(this.isFlapMode && this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).isDown){
             this.onAction();
         }
-
+        if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC).isDown){
+            this.pauseScene();
+        }
         if(this.isFlapMode && this.input.activePointer.isDown){
             this.onAction();
         }
@@ -93,6 +106,14 @@ export class Game2 extends Phaser.Scene{
         }else{
             this.box.body.velocity.y = -850;
             this.rotate(360);
+        }
+    }
+
+    pauseScene(){
+        if(!this.isPaused){
+            this.volverAJugarButton.create();
+            this.volverAMenuButton.create();
+            this.isPaused= true;
         }
     }
 
@@ -165,7 +186,8 @@ export class Game2 extends Phaser.Scene{
     onChangeToGravityInverted(){
         this.isFlapMode = false;
         this.isGravityInverted = true;
-        this.box.setTexture('box2');
+        this.box.anims.pause();
+        this.box.anims.play('boxBlack');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = -3500;
         this.groundBottom.setTexture('groundBottomB');
@@ -177,12 +199,12 @@ export class Game2 extends Phaser.Scene{
     onChangeToNormalGravity(){
         this.isFlapMode = false;
         this.isGravityInverted = false;
-        this.box.setTexture('box');
+        this.box.anims.pause();
+        this.box.anims.play('boxWhite');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 3500;
         this.groundBottom.setTexture('groundBottom');
         this.groundTop.setTexture('groundTop');
-        //this.briks.setTexture('brickW');
         this.portalSound.play();
     }
 

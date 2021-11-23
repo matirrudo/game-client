@@ -137,14 +137,14 @@ export class LevelConstructor {
         });
     }
 
-    createBottomSpikes(levelId){
+        createBottomSpikes(levelId){
         this.relatedScene.spikes = this.relatedScene.physics.add.group();
         api.fetchObstacles(levelId, 'BOTTOM')
         .then( response => {
             for(let spike of response){
                 let positionX = 0;
                 for(let i = 0; i < spike.quantity; i++){
-                    let spikeAux = this.relatedScene.spikes.create((spike.seconds * 700) + positionX, spike.y_value, 'spikeBottom').setOrigin(0,1);
+                    let spikeAux = this.relatedScene.spikes.create((spike.seconds * 700) + positionX, spike.y_value+((i%2)*15), 'spikeBottom').setOrigin(0,1).setImmovable(true);
                     positionX = positionX + spikeAux.width;
                 }
             }
@@ -159,7 +159,7 @@ export class LevelConstructor {
             for(let spike of response){
                 let positionX = 0;
                 for(let i = 0; i < spike.quantity; i++){
-                    let spikeAux = this.relatedScene.spikes.create((spike.seconds * 700) + positionX, spike.y_value, 'spikeTop').setOrigin(0,0);
+                    let spikeAux = this.relatedScene.spikes.create((spike.seconds * 700) + positionX-((i%2)*15), spike.y_value, 'spikeTop').setOrigin(0,0).setImmovable(true);
                     positionX = positionX + spikeAux.width;
                 }
             }
@@ -174,7 +174,7 @@ export class LevelConstructor {
             for(let spike of response){
                 let positionX = 0;
                 for(let i = 0; i < spike.quantity; i++){
-                    let spikeAux = this.relatedScene.spikes.create((spike.seconds * 700) + positionX, spike.y_value, 'spikeSide').setOrigin(0,0);
+                    let spikeAux = this.relatedScene.spikes.create((spike.seconds * 700) + positionX, spike.y_value, 'spikeSide').setOrigin(0,0).setImmovable(true);
                     positionX = positionX + spikeAux.width;
                 }
             }

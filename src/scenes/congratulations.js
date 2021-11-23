@@ -1,18 +1,18 @@
-import { RestartButton } from "../components/restart-button.js";
+import { VolverAMenu } from "../components/volver-a-menu-button.js";
 
 export class Congratulations extends Phaser.Scene {
   constructor() {
     super({ key: 'Congratulations' });
-    this.restartButton = new RestartButton(this);
+    this.volverAMenuButton = new VolverAMenu(this);
   }
 
   preload() {
-    this.load.image('congratulations', '../../assets/congratulations.png');
-    this.restartButton.preload();
+    this.load.image('congratulations', '../../assets/images/backgrounds/MenuVictoria.png');
+    this.volverAMenuButton.preload();
   }
   
   create() {
-    this.restartButton.create();
-    this.congratsImage = this.add.image(500, 250, 'congratulations');
+    this.congratsImage = this.add.image(0, 600, 'congratulations').setOrigin(0,1);
+    this.volverAMenuButton.create();
   }
 }

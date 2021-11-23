@@ -1,10 +1,10 @@
-export class RestartButton {
+export class VolverAMenu {
   constructor(scene) {
     this.relatedScene = scene;
   }
 
   preload() {
-    this.relatedScene.load.spritesheet('button', '../../assets/restart.png', { frameWidth: 190, frameHeight: 49 });
+    this.relatedScene.load.spritesheet('button', '../../assets/images/buttons/botonVolverAInicio.png', { frameWidth: 190, frameHeight: 49 });
   }
 
   create() {
@@ -17,7 +17,11 @@ export class RestartButton {
       this.startButton.setFrame(0);
     });
     this.startButton.on('pointerdown', () => {
-      this.relatedScene.scene.start('Game');
+      this.relatedScene.scene.start('Menu');
     });
+  }
+
+  resume(){
+    this.startButton.setVisible(false);
   }
 }
