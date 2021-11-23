@@ -14,16 +14,42 @@ export class LevelConstructor {
     }
 
     createBox(){
-        this.relatedScene.box = this.relatedScene.physics.add.sprite(1000 * (3/8), 300, 'boxFrames');
+        this.relatedScene.box = this.relatedScene.physics.add.sprite(1000 * (3/8), 300, 'boxWhiteFrames');
         this.relatedScene.anims.create({
-            key:'boxCircle',
-            frames:this.relatedScene.anims.generateFrameNumbers('boxFrames',{
-                start: 1,
-                end:5,
+            key:'boxWhite',
+            frames:this.relatedScene.anims.generateFrameNumbers('boxWhiteFrames',{
+                start:1,
+                end:4
+            }),
+            repeat:-1
+        });
+        this.relatedScene.anims.create({
+            key:'boxBlack',
+            frames:this.relatedScene.anims.generateFrameNumbers('boxBlackFrames',{
+                start:1,
+                end:4
+            }),
+            repeat:-1
+        });
+        this.relatedScene.anims.create({
+            key:'boxFlaps',
+            frames:this.relatedScene.anims.generateFrameNumbers('boxFlapFrames',{
+                start:1,
+                end:12
             }),
             repeat:-1,
-        })
-        this.relatedScene.box.anims.play('boxCircle');
+            yoyo:true
+        });
+        this.relatedScene.anims.create({
+            key:'boxFlaps2',
+            frames:this.relatedScene.anims.generateFrameNumbers('boxFlapFrames2',{
+                start:1,
+                end:6
+            }),
+            repeat:-1,
+            yoyo:true
+        });
+        this.relatedScene.box.anims.play('boxWhite');
         this.relatedScene.box.body.gravity.y = 3500;
         this.relatedScene.physics.add.collider(this.relatedScene.box, this.relatedScene.groundBottom, this.relatedScene.resetJumpCount, null, this.relatedScene);
         this.relatedScene.physics.add.collider(this.relatedScene.box, this.relatedScene.groundTop, this.relatedScene.resetJumpCount, null, this.relatedScene);

@@ -32,7 +32,7 @@ export class Game3 extends Phaser.Scene{
     preload(){
         this.load.image('box','../../assets/box.png');
         this.load.image('box2','../../assets/box2.png');
-        this.load.image('rocket','../../assets/rocket.png');
+        this.load.image('boxFlap','../../assets/boxFlap.png');
         this.load.image('groundBottom','../../assets/groundBottom-white.png');
         this.load.image('groundTop','../../assets/groundTop-white.png');
         this.load.image('groundBottomB','../../assets/groundBottom-black.png');
@@ -147,7 +147,8 @@ export class Game3 extends Phaser.Scene{
     onChangeToFlap(){
         this.isFlapMode = true;
         this.isGravityInverted = false;
-        this.box.setTexture('rocket');
+        this.box.anims.pause();
+        this.box.anims.play('boxFlaps2');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 2000;
         this.tweens.add({
@@ -164,24 +165,24 @@ export class Game3 extends Phaser.Scene{
     onChangeToGravityInverted(){
         this.isFlapMode = false;
         this.isGravityInverted = true;
-        this.box.setTexture('box2');
+        this.box.anims.pause();
+        this.box.anims.play('boxBlack');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = -3500;
         this.groundBottom.setTexture('groundBottomB');
         this.groundTop.setTexture('groundTopB');
-        //this.briks.setTexture('brickW');
         this.portalSound.play();
     }
 
     onChangeToNormalGravity(){
         this.isFlapMode = false;
         this.isGravityInverted = false;
-        this.box.setTexture('box');
+        this.box.anims.pause();
+        this.box.anims.play('boxWhite');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 3500;
         this.groundBottom.setTexture('groundBottom');
         this.groundTop.setTexture('groundTop');
-        //this.briks.setTexture('brickW');
         this.portalSound.play();
     }
 

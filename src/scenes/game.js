@@ -7,8 +7,8 @@ export class Game extends Phaser.Scene{
     }
 
     init(){
-        this.box = null;
         this.levelConstructor = new LevelConstructor(this,1);
+        this.box = null;
         this.groundBottom=null;
         this.groundTop=null;
         this.jumpCount=0;
@@ -32,7 +32,7 @@ export class Game extends Phaser.Scene{
     preload(){
         this.load.image('box','../../assets/box.png');
         this.load.image('box2','../../assets/box2.png');
-        this.load.image('rocket','../../assets/rocket.png');
+        this.load.image('boxFlap','../../assets/boxFlap.png');
         this.load.image('groundBottom','../../assets/groundBottom-white.png');
         this.load.image('groundTop','../../assets/groundTop-white.png');
         this.load.image('groundBottomB','../../assets/groundBottom-black.png');
@@ -57,7 +57,10 @@ export class Game extends Phaser.Scene{
         this.load.audio('music3', '../../assets/sounds/music-level3.mp3');
         this.load.audio('portalSound', '../../assets/sounds/portal.wav');
 
-        this.load.spritesheet('boxFrames', '../../assets/boxFrames.png', {frameWidth:30, frameHeight:30})
+        this.load.spritesheet('boxWhiteFrames', '../../assets/boxWhiteFrames.png', {frameWidth:30, frameHeight:30});
+        this.load.spritesheet('boxBlackFrames', '../../assets/boxBlackFrames.png', {frameWidth:30, frameHeight:30});
+        this.load.spritesheet('boxFlapFrames', '../../assets/boxFlapFrames.png', {frameWidth:50, frameHeight:35});
+        this.load.spritesheet('boxFlapFrames2', '../../assets/boxFlapFrames2.png', {frameWidth:50, frameHeight:35});
     }
 
     create(){
@@ -149,8 +152,8 @@ export class Game extends Phaser.Scene{
     onChangeToFlap(){
         this.isFlapMode = true;
         this.isGravityInverted = false;
-        this.box.anims.pause('boxCircle');
-        this.box.setTexture('rocket');
+        this.box.anims.pause();
+        this.box.setTexture('boxFlap');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 2000;
         this.tweens.add({
@@ -172,7 +175,6 @@ export class Game extends Phaser.Scene{
         this.box.body.gravity.y = -3500;
         this.groundBottom.setTexture('groundBottomB');
         this.groundTop.setTexture('groundTopB');
-        //this.briks.setTexture('brickW');
         this.portalSound.play();
     }
 

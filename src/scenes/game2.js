@@ -32,7 +32,7 @@ export class Game2 extends Phaser.Scene{
     preload(){
         this.load.image('box','../../assets/box.png');
         this.load.image('box2','../../assets/box2.png');
-        this.load.image('rocket','../../assets/rocket.png');
+        this.load.image('boxFlap','../../assets/boxFlap.png');
         this.load.image('groundBottom','../../assets/groundBottom-white.png');
         this.load.image('groundTop','../../assets/groundTop-white.png');
         this.load.image('groundBottomB','../../assets/groundBottom-black.png');
@@ -148,7 +148,7 @@ export class Game2 extends Phaser.Scene{
         this.isFlapMode = true;
         this.isGravityInverted = false;
         this.box.anims.pause();
-        this.box.setTexture('rocket');
+        this.box.anims.play('boxFlaps2');
         this.box.setBodySize(this.box.width, this.box.height, false);
         this.box.body.gravity.y = 2000;
         this.tweens.add({

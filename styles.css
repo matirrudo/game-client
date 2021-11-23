@@ -1,4 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300&display=swap');
+
+body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+footer {
+    min-height: 100px;
+}
+header a:hover{
+    text-decoration: underline;
+}
+
 .myGame{
     display: flex;
     justify-content: center;
 }   
+
+.proyectos h2{
+    margin-bottom: 15px;
+}
+.contacto{
+    text-align: center;
+}
+.logo{
+    width: 50px;
+    height: 50px;
+}
+
+.logo:hover{
+    width: 50px;
+    height: 50px;
+}
+.red a{
+    text-decoration: none;
+    color: black;
+}
+.red a:hover{
+    text-decoration: none;
+    color: black;
+    text-decoration: underline;
+}
+.red:hover{
+    background-color: #cfcfcf;
+    
+}

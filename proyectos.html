@@ -9,7 +9,7 @@
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./styles.css">
-  <title>TPFINAL-PW-HOME</title>
+  <title>TPFINAL-PW-PROYECTOS</title>
 </head>
 
 <body class="bg-dark">
@@ -17,10 +17,10 @@
     <br>
     <ul class="nav">
       <li class="nav-item">
-        <a class="nav-link text-danger" href="./index.html"><strong>DevWost</strong></a>
+        <a class="nav-link text-white" href="./index.html">DevWost</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="./proyectos.html">Proyectos</a>
+        <a class="nav-link text-danger" href="./proyectos.html"><strong>Proyectos</strong></a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-white" href="./juego.html">Juego</a>
@@ -36,35 +36,28 @@
   <section class="bg-white">
     <br>
     <div class="mt-2 mb-5 container">
-      <section>
-        <h2 class="text-center"><strong>DevWost</strong></h2>
-
-        <div class="row mt-5 mb-5">
-          <div class="col-lg-6">
-            <div class="text-center">
-              <h4 class="text-center"><strong>ACERCA DE NOSOTROS</strong></h4>
-              <img src="./assets//logoCatedra.png" class="img-fluid" alt="Logo Catedra">
-              
-              <p>Somos <strong>DevWost</strong>, una compañia orientada al desarrollo de videojuegos. 
-                En nuestros inicios como estudiantes de la "Tecnicatura Universitaria en Desarrollo Integral de Videojuegos" se nos encomendo
-                realizar un Trabajo Practico Final para la materia "Fundamentos de la programacion web". 
-                Desde ese entonces realizamos todo tipo de proyectos relacionados a videojuegos. 
-                Utilizamos Unity y Phaser como principales herramientas para diseñar los mismos.</p>
-              <p>
-                Si desea saber mas de nosotros mire el video o contactenos.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-lg-6">
-            <div class="ratio ratio-16x9">
-              <iframe src="https://www.youtube.com/embed/F5tSoaJ93ac" title="YouTube video" allowfullscreen></iframe>
-            </div>
+      <div class="proyectos text-center">
+        <h2 class="text-center"><strong>NUESTROS PROYECTOS</strong></h2>
+        <p class="mb-5 text-center">Sea libre de descargar nuestros proyectos</p>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Jail Escape</h5>
+            <p class="card-text">Videojuego desarrollado por nosotros. Utilizando los conocimientos adquiridos en la asignatura de Programacion de videojuegos 1</p>
+            <a href="https://github.com/matirrudo/CentroJubilados" class="btn btn-dark">Ir al repositorio</a>
+            <p class="card-text"><small class="text-muted">GitHub</small></p>
           </div>
         </div>
-
-      </section>
-
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Black&White</h5>
+            <p class="card-text">Videojuego desarrollado por nosotros. Utilizando los conocimientos adquiridos en la asignatura de Fundamentos de la programacion web</p>
+            <a href="https://github.com/matirrudo/game-server" class="btn btn-dark">Backend</a>
+            <a href="https://github.com/matirrudo/game-client" class="btn btn-dark">Frontend</a>
+            <p class="card-text"><small class="text-muted">GitHub</small></p>
+          </div>
+        </div>
+    
+      </div>
     </div>
     <br>
   </section>
@@ -77,6 +70,7 @@
       <a href="https://www.instagram.com/_matiax/"><i class="bi bi-instagram"></i></a>
     </div>
   </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
     integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
     crossorigin="anonymous"></script>
