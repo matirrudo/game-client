@@ -16,6 +16,10 @@ header a:hover{
     justify-content: center;
 }   
 
+.bg-grey{
+    background-color: rgb(59, 59, 59);
+}
+
 .proyectos h2{
     margin-bottom: 15px;
 }
