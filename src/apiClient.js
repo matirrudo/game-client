@@ -1,5 +1,5 @@
 const api= ( () =>{
-    const baseUrl = 'http://35.237.221.207:3013';
+    const baseUrl = 'https://aps.quirogaladrillos.com.ar';
 
     const fetchObstacles = (levelId, location) => {
         const url = `${baseUrl}/obstacles/${levelId}?location=${location}`;
